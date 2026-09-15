@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://benchmaxxing.lol/schema.json",
+  "title": "benchmaxxing chart config",
+  "type": "object",
+  "required": ["models", "benchmarks", "highlight"],
+  "properties": {
+    "title": { "type": "string" },
+    "subtitle": { "type": "string" },
+    "highlight": { "type": "string" },
+    "visualBias": { "enum": ["honest", "startup", "series-b"] },
+    "satireLabel": { "type": "string" },
+    "models": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "label"],
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "mark": { "type": "string" }
+        }
+      }
+    },
+    "benchmarks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "scores"],
+        "properties": {
+          "name": { "type": "string" },
+          "scores": { "type": "object", "additionalProperties": { "type": "number" } },
+          "suffix": { "type": "string" },
+          "note": { "type": "string" }
+        }
+      }
+    }
+  }
+}

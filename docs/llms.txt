@@ -1,0 +1,20 @@
+# benchmaxxing.lol - SOTA Charts for Non-SOTA Models
+
+> A real open-source charting library wearing a fake frontier-model launch as its launch campaign.
+
+## Overview
+benchmaxxing is a tiny, zero-runtime-dependency TypeScript library that renders polished multi-panel benchmark graphics as deterministic SVG. It launched with **Meridian Dawn Preview**, a satirical fake-model announcement featuring BulshitBench, ChartArena, CherryPick-Hard, VibeBench, InferencePlot, CopiumEval II, SOTA Leakage, and BenchMaxxing.lol.
+
+Every chart on the site — including the benchmarks proving the library is good at charts — was rendered by the library.
+
+## Facts
+- `npm i @benchmaxxing/charts`
+- `import { benchmaxx, meridianDawnPreset } from "@benchmaxxing/charts"`
+- `visualBias: "honest" | "startup" | "series-b"` changes emphasis only, never bar-height geometry.
+- All scores on this site are synthetic satire, not claims about real models. Competitor names are parodies.
+- MIT licensed. Created by Unfoundbox Crew.
+
+## Sister Projects
+- https://actuallyopenai.lol : OpenAI o3 Deliberation Profiler
+- https://stfuopus.lol : Claude Opus Apology Tax Calculator
+- https://agentworth.dev : Local-first AI trajectory forensics (npx agentworth)

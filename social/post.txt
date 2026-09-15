@@ -1,0 +1,15 @@
+Introducing Meridian Dawn Preview:
+From Raw Numbers to Verifiable Results.
+
+Meridian is a next-generation foundation model optimized for benchmark-native reasoning.
+
+Unlike existing models that optimize for intelligence, Meridian directly optimizes the metric that matters: the leaderboard screenshot.
+
+Strong gains on BulshitBench, ChartArena, CherryPick-Hard, VibeBench, InferencePlot, CopiumEval II, SOTA Leakage and BenchMaxxing.lol.
+
+Code + "weights" ↓
+GitHub: [link]
+Hugging Face: [link]
+Demo: https://benchmaxxing.lol
+
+SATIRE — synthetic scores, not real model evaluations.

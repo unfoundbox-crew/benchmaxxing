@@ -1,0 +1,26 @@
+{
+  "title": "Meridian Dawn Preview",
+  "subtitle": "Render-correctness suite. The eval is literally 'can it render the chart'.",
+  "highlight": "meridian",
+  "visualBias": "startup",
+  "columns": 3,
+  "footer": "100 means the chart rendered. Higher is better unless lower looked better.",
+  "satireLabel": "SATIRE · SYNTHETIC SCORES",
+  "models": [
+    { "id": "meridian", "label": "Meridian Dawn Preview", "mark": "M△" },
+    { "id": "deepdiver", "label": "DeepDiver V4", "mark": "DV" },
+    { "id": "kite", "label": "KITE K3", "mark": "K³" },
+    { "id": "quanta", "label": "Quanta 3.8 Max", "mark": "Q" },
+    { "id": "glyph", "label": "GLYPH 5.3", "mark": "G" },
+    { "id": "aperture", "label": "Aperture 5.6 Sol", "mark": "A" },
+    { "id": "sonneteer", "label": "Sonneteer Opus 5", "mark": "S" }
+  ],
+  "benchmarks": [
+    { "name": "BarBench", "note": "rectangles", "scores": { "meridian": 100, "deepdiver": 81.2, "kite": 84.9, "quanta": 83.1, "glyph": 87.4, "aperture": 89.8, "sonneteer": 92.3 } },
+    { "name": "LineBench", "note": "polylines", "scores": { "meridian": 100, "deepdiver": 79.6, "kite": 85.2, "quanta": 84.4, "glyph": 88.1, "aperture": 90.5, "sonneteer": 91.7 } },
+    { "name": "ScatterBench", "note": "dots", "scores": { "meridian": 100, "deepdiver": 82.8, "kite": 83.3, "quanta": 85.9, "glyph": 86.2, "aperture": 88.9, "sonneteer": 90.1 } },
+    { "name": "TooltipBench", "note": "hover", "scores": { "meridian": 100, "deepdiver": 77.5, "kite": 82.1, "quanta": 81.6, "glyph": 85.3, "aperture": 89.2, "sonneteer": 93.0 } },
+    { "name": "AxisBench", "note": "ticks", "scores": { "meridian": 100, "deepdiver": 80.9, "kite": 84.2, "quanta": 86.7, "glyph": 87.9, "aperture": 91.4, "sonneteer": 92.8 } },
+    { "name": "ResponsiveBench", "note": "320px", "scores": { "meridian": 100, "deepdiver": 78.3, "kite": 81.5, "quanta": 83.8, "glyph": 86.6, "aperture": 90.0, "sonneteer": 91.2 } }
+  ]
+}

@@ -1,0 +1,20 @@
+REPLY 1
+Apparently specializing the architecture helped.
+
+REPLY 2
+0 parameters.
+0 tokens/sec.
+100% deterministic inference.
+
+REPLY 3
+Okay, reveal: Meridian is not a model.
+
+I got tired of every model launch looking like this, so I built the charting library used to make the post.
+
+benchmaxxing is real, open source, dependency-free, and generates these cards as deterministic SVG.
+
+REPLY 4
+The renderer is deliberately less dishonest than the branding: it never changes bar height geometry to make the highlighted model look better. `visualBias` only changes emphasis/width/style.
+
+REPLY 5
+Every chart in this thread — including the benchmarks proving benchmaxxing is good at charts — was rendered by benchmaxxing.

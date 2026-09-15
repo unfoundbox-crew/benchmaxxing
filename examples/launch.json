@@ -1,0 +1,16 @@
+{
+  "title": "Totally Real Preview",
+  "subtitle": "A benchmark-native foundation model.",
+  "highlight": "ours",
+  "visualBias": "startup",
+  "satireLabel": "SATIRE · SYNTHETIC SCORES",
+  "models": [
+    { "id": "ours", "label": "Totally Real Preview", "mark": "TR" },
+    { "id": "a", "label": "Frontier A", "mark": "A" },
+    { "id": "b", "label": "Frontier B", "mark": "B" }
+  ],
+  "benchmarks": [
+    { "name": "BulshitBench", "scores": { "ours": 96.4, "a": 88.1, "b": 90.2 } },
+    { "name": "VibeBench", "scores": { "ours": 94.6, "a": 89.8, "b": 91.0 } }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "name": "@benchmaxxing/charts",
+  "version": "0.1.0",
+  "description": "SOTA charts for non-SOTA models. A tiny, deterministic benchmark-chart renderer with a satirical launch preset.",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "benchmaxxing": "./bin/benchmaxxing.mjs"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node scripts/copy-docs.mjs",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "assets": "npm run build && node scripts/generate-assets.mjs",
+    "demo": "python3 -m http.server 4173 -d docs"
+  },
+  "keywords": [
+    "charts",
+    "benchmarks",
+    "svg",
+    "dataviz",
+    "ai",
+    "satire"
+  ],
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
