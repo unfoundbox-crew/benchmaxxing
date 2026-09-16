@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "status": "success",
+  "eval": {
+    "created": "2026-09-01T12:00:00Z",
+    "task": "hellaswag",
+    "task_name": "hellaswag",
+    "task_version": "1",
+    "model": "mockllm/model",
+    "dataset": { "name": "hellaswag", "location": "hellaswag" },
+    "solver": { "name": "multiple_choice" },
+    "config": { "epochs": 1 }
+  },
+  "results": {
+    "scores": [
+      {
+        "name": "choice",
+        "scorer": { "name": "choice" },
+        "params": {},
+        "metrics": {
+          "accuracy": { "value": 0.62, "stderr": 0.012 }
+        }
+      }
+    ]
+  }
+}

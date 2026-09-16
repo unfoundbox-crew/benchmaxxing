@@ -1,4 +1,6 @@
 import { escapeXml } from "./escape.js";
+import { renderOg } from "./og.js";
+import { finiteScore, fmt } from "./shared.js";
 const defaults = {
     width: 1200,
     columns: 4,
@@ -8,19 +10,6 @@ const defaults = {
     mutedColor: "#d9d9d9",
     panelColor: "#f7f7f7"
 };
-function finiteScore(value, benchmark) {
-    if (!Number.isFinite(value)) {
-        throw new Error(`Benchmark ${benchmark.name} contains a non-finite score.`);
-    }
-    return value;
-}
-function fmt(value) {
-    if (Number.isInteger(value))
-        return String(value);
-    if (Math.abs(value) >= 1000)
-        return value.toFixed(0);
-    return value.toFixed(1);
-}
 function ensureValid(options) {
     if (!options.models.length)
         throw new Error("At least one model is required.");
@@ -99,6 +88,8 @@ function panelSvg(benchmark, options, x, y, width, height) {
     return parts.join("");
 }
 export function benchmaxx(options) {
+    if (options.layout === "og")
+        return renderOg(options);
     ensureValid(options);
     const width = options.width ?? defaults.width;
     const columns = Math.max(1, Math.min(options.columns ?? defaults.columns, options.benchmarks.length));

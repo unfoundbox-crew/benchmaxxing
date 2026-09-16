@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0 — 2026-09-16
+
+- Eval adapters: lm-eval results JSON, Inspect `log dump` JSON, CSV, auto-detect.
+- Multi-file merge on common tasks, honest-default highlight, provenance footer.
+- Branding: benchmaxx.config.json + CLI flags (title, theme, metric, scale, tasks).
+- OG layout: 1200×630 horizontal-bar link-card mode.
+- Snippets: README table, HF card, prefilled post.txt. `benchmaxxing` wrapper package (unpublished).
+- Launch bundle: one CLI call emits chart.svg + table.md + hf-card.md + post.txt.
+
 ## Unreleased
 
 - Y-axis ticks and gridlines on every panel.
