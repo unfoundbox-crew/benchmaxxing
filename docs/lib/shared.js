@@ -21,4 +21,53 @@ export function resolveMax(benchmark, values) {
 export function highlightScale(visualBias) {
     return visualBias === "series-b" ? 1.14 : visualBias === "startup" ? 1.07 : 1;
 }
+const THEMES = {
+    launch: {
+        background: "#ffffff",
+        foreground: "#1c1917",
+        highlightColor: "#2563eb",
+        mutedColor: "#e7e5e4",
+        panelColor: "#fafaf9",
+        onHighlight: "#ffffff",
+        gridOpacity: 0.12,
+        hairlineWidth: 1
+    },
+    paper: {
+        background: "#ffffff",
+        foreground: "#111111",
+        highlightColor: "#111111",
+        mutedColor: "#ececec",
+        panelColor: "#ffffff",
+        onHighlight: "#ffffff",
+        gridOpacity: 0.22,
+        hairlineWidth: 0.5
+    },
+    terminal: {
+        background: "#09090b",
+        foreground: "#f4f4f5",
+        highlightColor: "#10b981",
+        mutedColor: "#27272a",
+        panelColor: "#101013",
+        onHighlight: "#ffffff",
+        gridOpacity: 0.18,
+        hairlineWidth: 1
+    }
+};
+export function resolveTheme(options) {
+    const name = options.theme ?? "launch";
+    const base = THEMES[name];
+    if (!base) {
+        throw new Error(`benchmaxxing: unknown theme ${JSON.stringify(name)} (known: launch, paper, terminal)`);
+    }
+    return {
+        background: options.background ?? base.background,
+        foreground: options.foreground ?? base.foreground,
+        highlightColor: options.highlightColor ?? base.highlightColor,
+        mutedColor: options.mutedColor ?? base.mutedColor,
+        panelColor: options.panelColor ?? base.panelColor,
+        onHighlight: base.onHighlight,
+        gridOpacity: base.gridOpacity,
+        hairlineWidth: base.hairlineWidth
+    };
+}
 //# sourceMappingURL=shared.js.map

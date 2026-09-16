@@ -1,5 +1,7 @@
 export type VisualBias = "honest" | "startup" | "series-b";
 
+export type ChartTheme = "launch" | "paper" | "terminal";
+
 export interface BenchModel {
   id: string;
   label: string;
@@ -25,6 +27,7 @@ export interface BenchmaxxOptions {
   width?: number;
   columns?: number;
   visualBias?: VisualBias;
+  theme?: ChartTheme;
   footer?: string;
   satireLabel?: string;
   background?: string;

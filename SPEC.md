@@ -59,7 +59,7 @@ Empty intersection → throw `benchmaxxing: no common tasks`.
 ## 4. Branding + CLI (src/branding.ts, bin/benchmaxxing.mjs — Agent D)
 
 `benchmaxx.config.json` (all fields optional) + CLI flags win over config:
-`--title --subtitle --highlight --theme light|dark --metric --scale --tasks a,b,c`.
+`--title --subtitle --highlight --theme light|dark|launch|paper|terminal --metric --scale --tasks a,b,c`.
 `--highlight` default: model with highest mean score (honest default).
 `--input` repeatable (positionals are also inputs). `--names a,b,c` maps
 positionally onto inputs for display names. `--out` dir receives the bundle.

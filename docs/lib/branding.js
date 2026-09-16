@@ -59,7 +59,7 @@ const THEMES = {
 export function themeColors(theme) {
     const t = THEMES[theme];
     if (!t)
-        throw new Error(`benchmaxxing: --theme must be light or dark, got ${JSON.stringify(theme)}`);
+        throw new Error(`benchmaxxing: --theme must be light, dark, launch, paper or terminal, got ${JSON.stringify(theme)}`);
     return { ...t };
 }
 /** Scale rule (SPEC.md §1): fractions ≤ 1.5 are ×100. "1" forces ×100,

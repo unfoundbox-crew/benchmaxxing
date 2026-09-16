@@ -109,10 +109,25 @@ type BenchmaxxOptions = {
   columns?: number;
   width?: number;
   visualBias?: "honest" | "startup" | "series-b";
+  theme?: "launch" | "paper" | "terminal";
+  background?: string;
+  foreground?: string;
+  highlightColor?: string;
+  mutedColor?: string;
+  panelColor?: string;
   footer?: string;
   satireLabel?: string;
 };
 ```
+
+### Themes
+
+`theme` picks a token set for both `panels` and `og` layouts (default `"launch"`,
+the current look). `paper` is B&W print-safe (solid black hero bars, no hue).
+`terminal` is dark with a phosphor-green hero. Explicit color overrides
+(`background`, `foreground`, `highlightColor`, `mutedColor`, `panelColor`)
+always win over the theme. `visualBias` stays orthogonal: emphasis and bar
+width only, never color.
 
 ### Browser helpers
 

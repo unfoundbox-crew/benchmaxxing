@@ -20,7 +20,7 @@ const raw = process.argv.slice(2);
 const inputs = [];
 const opts = {};
 if (raw.some((a) => a === "--help" || a === "-h")) {
-  console.log(`benchmaxxing\n\nUsage:\n  benchmaxxing --preset meridian-dawn --out launch.svg\n  benchmaxxing --input chart.json --out chart.svg\n  benchmaxxing --input a.json --input b.csv --names A,B --out ./launch/\n\nOptions:\n  --input <file>  Repeatable. Chart config JSON or eval output (lm-eval,\n                  inspect, csv). Bare positionals are also inputs.\n  --names a,b,c   Display names mapped positionally onto inputs.\n  --from auto|lm-eval|inspect|csv   Adapter pick (default: auto detect).\n  --metric <name> Metric key for adapters that accept one (e.g. lm-eval).\n  --scale 100|1|auto  Percent, fraction, or auto-detect (default: auto).\n  --tasks a,b,c   Keep only these benchmarks (by name).\n  --title <s> --subtitle <s> --highlight <model id> --theme light|dark\n  --preset meridian-dawn\n  --out <path>    File for chart configs; directory bundle for eval inputs.\n`);
+  console.log(`benchmaxxing\n\nUsage:\n  benchmaxxing --preset meridian-dawn --out launch.svg\n  benchmaxxing --input chart.json --out chart.svg\n  benchmaxxing --input a.json --input b.csv --names A,B --out ./launch/\n\nOptions:\n  --input <file>  Repeatable. Chart config JSON or eval output (lm-eval,\n                  inspect, csv). Bare positionals are also inputs.\n  --names a,b,c   Display names mapped positionally onto inputs.\n  --from auto|lm-eval|inspect|csv   Adapter pick (default: auto detect).\n  --metric <name> Metric key for adapters that accept one (e.g. lm-eval).\n  --scale 100|1|auto  Percent, fraction, or auto-detect (default: auto).\n  --tasks a,b,c   Keep only these benchmarks (by name).\n  --title <s> --subtitle <s> --highlight <model id> --theme light|dark|launch|paper|terminal\n  --preset meridian-dawn\n  --out <path>    File for chart configs; directory bundle for eval inputs.\n`);
   process.exit(0);
 }
 for (let i = 0; i < raw.length; i++) {
@@ -90,7 +90,14 @@ async function main() {
     const subtitle = resolveValue(opts.subtitle, config.subtitle, undefined);
     if (subtitle !== undefined) resolved.subtitle = subtitle;
     resolved.highlight = resolveValue(opts.highlight, config.highlight, undefined) ?? resolved.highlight ?? defaultHighlight(filtered);
-    if (theme !== undefined) Object.assign(resolved, themeColors(theme));
+    if (theme !== undefined) {
+      if (["launch", "paper", "terminal"].includes(theme)) {
+        resolved.theme = theme;
+      } else {
+        delete resolved.theme;
+        Object.assign(resolved, themeColors(theme));
+      }
+    }
     return resolved;
   };
 

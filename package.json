@@ -26,6 +26,7 @@
     "build": "tsc -p tsconfig.json && node scripts/copy-docs.mjs",
     "test": "npm run build && node --test tests/*.test.mjs",
     "assets": "npm run build && node scripts/generate-assets.mjs",
+    "gallery": "npm run build && node scripts/generate-gallery.mjs",
     "demo": "python3 -m http.server 4173 -d docs"
   },
   "keywords": [
