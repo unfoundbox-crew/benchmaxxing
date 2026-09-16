@@ -1,0 +1,20 @@
+{
+  "name": "benchmaxxing",
+  "version": "0.1.0",
+  "description": "SOTA charts for non-SOTA models. Bare-name wrapper — resolves `npx benchmaxxing` and passes through to @benchmaxxing/charts.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "benchmaxxing": "./bin/benchmaxxing.mjs"
+  },
+  "dependencies": {
+    "@benchmaxxing/charts": "0.1.0"
+  },
+  "files": [
+    "bin",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  }
+}

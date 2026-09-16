@@ -6,7 +6,7 @@ import type { Benchmark, BenchmaxxOptions } from "./types.js";
 // Structural task type is local: Agent A owns src/types.ts and has not
 // landed the §1 contracts there yet.
 
-export interface BrandingConfig extends Partial<BenchmaxxOptions> {
+export interface BrandingConfig extends Omit<Partial<BenchmaxxOptions>, "theme"> {
   metric?: string;
   scale?: string;
   tasks?: string[];
@@ -76,7 +76,7 @@ const THEMES: Record<string, { background: string; foreground: string; panelColo
 
 export function themeColors(theme: string): { background: string; foreground: string; panelColor: string } {
   const t = THEMES[theme];
-  if (!t) throw new Error(`benchmaxxing: --theme must be light or dark, got ${JSON.stringify(theme)}`);
+  if (!t) throw new Error(`benchmaxxing: --theme must be light, dark, launch, paper or terminal, got ${JSON.stringify(theme)}`);
   return { ...t };
 }
 

@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>benchmaxxing.lol — SOTA charts for non-SOTA models</title>
+  <meta name="description" content="A tiny benchmark-chart renderer for launch posts, papers, dashboards. SATIRE — synthetic scores, not model evaluations." />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <meta name="theme-color" content="#09090b" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="benchmaxxing.lol" />
+  <meta property="og:title" content="Meridian Dawn Preview — SOTA charts for non-SOTA models" />
+  <meta property="og:description" content="BulshitBench 96.4. 0 parameters. 0 tokens/sec. Runs entirely in your browser. SATIRE — synthetic scores, not model evaluations." />
+  <meta property="og:image" content="../og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Meridian Dawn Preview — SOTA charts for non-SOTA models" />
+  <meta name="twitter:description" content="BulshitBench 96.4. 0 parameters. 0 tokens/sec. Runs entirely in your browser." />
+  <meta name="twitter:image" content="../og-image.png" />
+  <style>
+    :root{
+      --bg:#09090b;
+      --panel:#101013;
+      --panel-2:#131316;
+      --line:#27272a;
+      --text:#f4f4f5;
+      --dim:#a1a1aa;
+      --faint:#71717a;
+      --accent:#2563eb;
+      --code-bg:#000;
+      --code-text:#e4e4e7;
+      --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+      --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+    }
+    /* Explicit override wins over everything. */
+    :root[data-theme="light"]{
+      --bg:#fafaf9;
+      --panel:#ffffff;
+      --panel-2:#f5f5f4;
+      --line:#e7e5e4;
+      --text:#1c1917;
+      --dim:#57534e;
+      --faint:#a8a29e;
+      --code-bg:#111111;
+      --code-text:#f4f4f5;
+    }
+    :root[data-theme="dark"]{
+      --bg:#09090b;
+      --panel:#101013;
+      --panel-2:#131316;
+      --line:#27272a;
+      --text:#f4f4f5;
+      --dim:#a1a1aa;
+      --faint:#71717a;
+      --code-bg:#000;
+      --code-text:#e4e4e7;
+    }
+    /* System default: follow the OS, only when no explicit choice is stored. */
+    @media (prefers-color-scheme: light){
+      :root:not([data-theme]){
+        --bg:#fafaf9;
+        --panel:#ffffff;
+        --panel-2:#f5f5f4;
+        --line:#e7e5e4;
+        --text:#1c1917;
+        --dim:#57534e;
+        --faint:#a8a29e;
+        --code-bg:#111111;
+        --code-text:#f4f4f5;
+      }
+    }
+    *{box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.6}
+    .wrap{width:min(1120px,calc(100% - 32px));margin:0 auto}
+    /* top status bar */
+    .statusbar{border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--faint)}
+    .statusbar .wrap{display:flex;justify-content:space-between;gap:12px;padding:8px 0;text-transform:uppercase}
+    .statusbar .ok{color:var(--dim)}
+    .statusbar .ok::before{content:"● ";color:var(--accent)}
+    .mode-toggle{display:inline-flex;gap:2px;margin-left:12px}
+    .mode-toggle button{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:transparent;color:var(--faint);border:1px solid transparent;border-radius:3px;padding:2px 7px;cursor:pointer}
+    .mode-toggle button:hover{color:var(--text)}
+    .mode-toggle button[aria-pressed="true"]{color:var(--accent);border-color:var(--line)}
+    /* header */
+    header{padding:48px 0 24px}
+    .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+    h1{font-size:clamp(34px,5.4vw,64px);line-height:1.02;letter-spacing:-.03em;margin:12px 0 12px;max-width:16ch}
+    h1 .cursor{color:var(--accent)}
+    .sub{font-size:16px;line-height:1.55;color:var(--dim);max-width:64ch;margin:0}
+    .sub strong{color:var(--text);font-weight:600}
+    /* controls */
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 0}
+    .controls button{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:4px;padding:10px 14px;cursor:pointer}
+    .controls button:hover{border-color:var(--accent)}
+    .controls button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+    .controls button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+    .controls button.primary:hover{background:#1d4ed8}
+    .controls button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+    .controls button.primary[aria-pressed="true"]{color:#fff}
+    .seg-label{align-self:center;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin:0 2px 0 10px}
+    .seg-label:first-child{margin-left:0}
+    /* chart frame */
+    .frame{border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:24px}
+    .frame-bar{display:flex;justify-content:space-between;gap:12px;background:var(--panel);border-bottom:1px solid var(--line);padding:8px 12px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+    .frame-bar .fname{color:var(--dim);text-transform:none;letter-spacing:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .chart-white{background:#fff;padding:16px;overflow-x:auto}
+    .chart-white svg{display:block;width:100%;height:auto;min-width:860px}
+    .chart-white img{ display:block;width:100%;height:auto }
+    /* disclosure */
+    .disclosure{border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--panel);border-radius:0 4px 4px 0;padding:12px 14px;margin:12px 0 0;font-family:var(--mono);font-size:12.5px;line-height:1.6;color:var(--dim)}
+    .disclosure strong{color:var(--text)}
+    /* grid */
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0 40px}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px;min-width:0}
+    .card h2{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 12px;font-weight:700}
+    .card h2 .n{color:var(--accent)}
+    .card p,.card li{color:var(--dim);font-size:14px}
+    .card ul{margin:8px 0 0;padding-left:20px}
+    .card li{margin:4px 0}
+    .card code{font-family:var(--mono);font-size:12.5px;color:var(--text);background:var(--panel-2);border:1px solid var(--line);border-radius:3px;padding:1px 5px}
+    .code{background:var(--code-bg);border:1px solid var(--line);border-radius:4px;padding:14px;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.65;color:var(--code-text);white-space:pre;font-variant-numeric:tabular-nums}
+    .code .p{color:var(--accent);font-weight:700}
+    .code .c{color:var(--faint)}
+    /* spec strip */
+    .specs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 8px}
+    .spec{border:1px solid var(--line);border-radius:6px;background:var(--panel);padding:12px 14px;min-width:0}
+    .spec .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+    .spec .v{font-family:var(--mono);font-size:19px;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;margin-top:2px}
+    .spec .v em{font-style:normal;color:var(--accent)}
+    footer{border-top:1px solid var(--line);margin-top:8px;padding:16px 0 48px;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--faint)}
+    footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    @media(max-width:800px){
+      .grid{grid-template-columns:1fr}
+      .specs{grid-template-columns:1fr 1fr}
+      header{padding-top:32px}
+      .chart-white{padding:8px}
+    }
+  </style>
+</head>
+<body>
+  <div class="statusbar" aria-hidden="false">
+    <div class="wrap">
+      <span>benchmaxxing.lol // v2</span>
+      <span><span class="ok">build: stable · zero deps</span><span class="mode-toggle" role="group" aria-label="Color mode"><button type="button" data-mode="system" aria-pressed="true">System</button><button type="button" data-mode="light" aria-pressed="false">Light</button><button type="button" data-mode="dark" aria-pressed="false">Dark</button></span></span>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <header>
+      <div class="eyebrow">// open source · deterministic svg · zero runtime dependencies</div>
+      <h1>SOTA charts for non-SOTA models<span class="cursor">_</span></h1>
+      <p class="sub"><strong>benchmaxxing</strong> is a tiny benchmark-chart renderer for launch posts, papers, dashboards, and one very specific kind of AI Twitter brain damage. Node or browser. Plain SVG strings out.</p>
+      <div class="controls">
+        <button id="png" class="primary" type="button">Export PNG</button>
+        <button id="svg" type="button">Export SVG</button>
+        <button id="bias" type="button">Bias: startup</button>
+        <span class="seg-label" id="theme-label">Chart:</span>
+        <span role="group" aria-labelledby="theme-label" style="display:contents">
+          <button type="button" data-chart-theme="launch" aria-pressed="true">Launch</button><button type="button" data-chart-theme="paper" aria-pressed="false">Paper</button><button type="button" data-chart-theme="terminal" aria-pressed="false">Terminal</button>
+        </span>
+      </div>
+    </header>
+
+    <section class="frame" aria-label="Live chart demo">
+      <div class="frame-bar" aria-hidden="true">
+        <span>output</span>
+        <span class="fname">meridian-dawn-preview.svg</span>
+      </div>
+      <div class="chart-white">
+        <div id="chart"><img src="../preview.svg" alt="Static preview of the Meridian Dawn benchmark chart" /></div>
+      </div>
+    </section>
+
+    <p class="disclosure"><strong>SATIRE — synthetic scores.</strong> The numbers in this chart are invented, not claims about real models. Bar geometry stays faithful to the data even when the benchmark names are not serious.</p>
+
+    <section class="grid" style="margin-top:16px">
+      <article class="spec"><div class="k">BulshitBench</div><div class="v">96.4</div></article>
+      <article class="spec"><div class="k">Parameters</div><div class="v">0</div></article>
+      <article class="spec"><div class="k">Tokens / sec</div><div class="v">0</div></article>
+      <article class="spec"><div class="k">Runtime deps</div><div class="v"><em>0</em></div></article>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2><span class="n">01 /</span> Install</h2>
+        <div class="code"><span class="p">$</span> npm i @benchmaxxing/charts</div>
+        <p>Node or browser. No runtime dependencies. Generates plain SVG strings, so it also works in build pipelines.</p>
+      </article>
+      <article class="card">
+        <h2><span class="n">02 /</span> API</h2>
+        <div class="code"><span class="c">// highlight ours, obviously</span>
+<span class="p">import</span> { benchmaxx } from "@benchmaxxing/charts";
+
+<span class="p">const</span> svg = benchmaxx({
+  models,
+  benchmarks,
+  highlight: "ours",
+  visualBias: "startup"
+});</div>
+      </article>
+      <article class="card">
+        <h2><span class="n">03 /</span> CLI</h2>
+        <div class="code"><span class="p">$</span> benchmaxxing \
+  --preset meridian-dawn \
+  --out launch.svg</div>
+        <p>Or provide your own JSON config with <code>--input</code>.</p>
+      </article>
+      <article class="card">
+        <h2><span class="n">04 /</span> Chart crimes not included</h2>
+        <ul>
+          <li>No fabricated geometry.</li>
+          <li>No hidden axis manipulation.</li>
+          <li>No fake real-world benchmark claims.</li>
+          <li>Just excellent-looking bars and questionable benchmark names.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>benchmaxxing.lol — satire. synthetic scores.</span>
+      <span>exit 0</span>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { benchmaxx, meridianDawnPreset, downloadSvg, downloadPng } from "../lib/index.js";
+    const chart = document.querySelector("#chart");
+    const svgButton = document.querySelector("#svg");
+    const pngButton = document.querySelector("#png");
+    const biasButton = document.querySelector("#bias");
+    const themeButtons = [...document.querySelectorAll("[data-chart-theme]")];
+    const biases = ["honest", "startup", "series-b"];
+    let biasIndex = 1;
+    let chartTheme = "launch";
+    let currentSvg = "";
+    function render() {
+      const config = meridianDawnPreset();
+      config.visualBias = biases[biasIndex];
+      config.theme = chartTheme;
+      currentSvg = benchmaxx(config);
+      chart.innerHTML = currentSvg;
+      biasButton.textContent = `Bias: ${biases[biasIndex]}`;
+      for (const b of themeButtons) b.setAttribute("aria-pressed", String(b.dataset.chartTheme === chartTheme));
+    }
+    biasButton.addEventListener("click", () => {
+      biasIndex = (biasIndex + 1) % biases.length;
+      render();
+    });
+    for (const b of themeButtons) b.addEventListener("click", () => {
+      chartTheme = b.dataset.chartTheme;
+      render();
+    });
+    svgButton.addEventListener("click", () => downloadSvg(currentSvg, "meridian-dawn-preview.svg"));
+    pngButton.addEventListener("click", () => downloadPng(currentSvg, "meridian-dawn-preview.png", 2));
+    render();
+  </script>
+  <script>
+    (function () {
+      var KEY = "bm-theme";
+      var meta = document.querySelector('meta[name="theme-color"]');
+      var buttons = [...document.querySelectorAll("[data-mode]")];
+      function paint(mode) {
+        var root = document.documentElement;
+        if (mode === "system") root.removeAttribute("data-theme");
+        else root.setAttribute("data-theme", mode);
+        var dark = mode === "dark" || (mode === "system" && matchMedia("(prefers-color-scheme: dark)").matches);
+        if (meta) meta.setAttribute("content", dark ? "#09090b" : "#fafaf9");
+        for (const b of buttons) b.setAttribute("aria-pressed", String(b.dataset.mode === mode));
+      }
+      var stored = null;
+      try { stored = localStorage.getItem(KEY); } catch (e) {}
+      paint(stored === "light" || stored === "dark" ? stored : "system");
+      for (const b of buttons) b.addEventListener("click", () => {
+        try {
+          if (b.dataset.mode === "system") localStorage.removeItem(KEY);
+          else localStorage.setItem(KEY, b.dataset.mode);
+        } catch (e) {}
+        paint(b.dataset.mode);
+      });
+      matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => {
+        var current = null;
+        try { current = localStorage.getItem(KEY); } catch (e) {}
+        if (!current) paint("system");
+      });
+    })();
+  </script>
+</body>
+</html>
